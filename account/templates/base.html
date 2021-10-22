@@ -13,13 +13,13 @@
 <body>
     <div id='header'>
         <span class="logo">Bookmarks</span>
-        {% if request.user.is_autenticated %}
+        {% if request.user.is_authenticated %}
         <ul class="menu">
             <li {% if section == "dashboard" %}class="selected" {% endif %}>
-                <a href="{% url 'dashboard' ">Panel glowny</a>
+                <a href="{% url 'dashboard' %}">Panel glowny</a>
             </li>
-            <li {% if section == "images" %}class=" selected"{% endif %}>
-                    <a href="#">Obrazy</a>
+            <li {% if section == "images" %}class=" selected" {% endif %}>
+                <a href="#">Obrazy</a>
             </li>
             <li {% if section == "people" %}class="selected" {% endif %}>
                 <a href="#">Osoby</a>
@@ -27,7 +27,7 @@
         </ul>
         {% endif %}
         <span class="user">
-            {% if request.user.is_autenticated %}
+            {% if request.user.is_authenticated %}
             Witaj, {{ request.user.first_name }}!
             <a href="{% url 'logout' %}">Wyloguj</a>
             {% else %}

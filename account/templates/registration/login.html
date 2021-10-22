@@ -12,11 +12,11 @@
 {% else %}
 <p>Wypełnij poniższy formularz, by się zalogowac</p>
 {% endif %}
-<div class='login-form'>
+<div class="login-form">
     <form action="{% url 'login' %}" method="post">
         {{ form.as_p }}
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}">
+        <input type="hidden" name="next" value="{{ next }}" />
         <p><input type="submit" value="Zaloguj"></p>
     </form>
 </div>

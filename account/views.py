@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from .forms import LoginForm, UserRegistrationForm, UserEditForm, ProfileEditForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
+from django.contrib import messages
 
 # Create your views here.
 
@@ -66,7 +67,7 @@ def edit(request):
             profile_form.save()
             messages.success(request, 'Profil zaktualizowany')
         else:
-            message.error(request, 'Błąd podczas edytowania profilu')
+            messages.error(request, 'Błąd podczas edytowania profilu')
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)

@@ -4,5 +4,7 @@
 
 {% block content %}
 <h1>Panel glowny</h1>
-<p>Witaj w panelu glownym.</p>
+<p>Witaj w panelu glownym. <br>
+    Edytuj <a href="{% url 'edit' %}">profil.</a><br>
+    Zmien <a href="{% url 'password_change' %}">hasło.</a></p>
 {% endblock content %}

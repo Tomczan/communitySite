@@ -1,6 +1,8 @@
 from django import forms
 from .models import Image
 from django.utils.text import slugify
+from django.core.files.base import ContentFile
+from urllib import request
 
 
 class ImageCreateForm(forms.ModelForm):

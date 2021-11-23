@@ -13,7 +13,7 @@ def image_create(request):
             new_item = form.save(commit=False)
             new_item.user = request.user
             new_item.save()
-            message.success(request, 'Obraz został dodany.')
+            messages.success(request, 'Obraz został dodany.')
             # przekierowanie do widoku szczegółowego dla nowo utworzonego elementu
             return redirect(new_item.get_absolute_url())
     else:

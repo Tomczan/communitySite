@@ -4,7 +4,13 @@
 
 {% block content %}
 <h1>Panel glowny</h1>
-<p>Witaj w panelu glownym. <br>
-    Edytuj <a href="{% url 'edit' %}">profil.</a><br>
-    Zmien <a href="{% url 'password_change' %}">hasło.</a></p>
+
+{% with total_images_created=request.user.images_created.count %}
+<p>Witaj w panelu głównym. Dodałes {{ total_images_created }} obraz{{total_images_created|pluralize:"ów"}}</p>
+{% endwith %}
+
+<p>Przeciagnij ponizszy przycisk na pasek ulubionych. Zyskasz mozliwosc dodawania obrazow z innych witryn internetowych
+    <a href="javascript:{% include 'bookmarklet_launcher.js' %}" class="button">Dodaj obraz</a></p>
+
+<p>Mozesz <a href="{% url 'edit' %}">edytowac hasło</a> lub <a href="{% url 'password_change' %}">zmienic haslo</a></p>
 {% endblock content %}

@@ -6,7 +6,7 @@
     var min_height = 100;
 
     function bookmarklet(msg) {
-        alert('bookmarkled loaded!');
+        //alert('bookmarkled loaded!');
         //wczytanie css
         var css = jQuery('<link>');
         css.attr({
@@ -22,23 +22,25 @@
         jQuery('#bookmarklet #close').click(function(){
             jQuery('#bookmarklet').remove();
         });
+        //wyszukanie i wyswietlanie obrazow
         jQuery.each(jQuery('img[src$="jpg"]'), function(index, image){
-            if (jQuery(image).width() >= min_height && jQuery(image).height() >= min_height){
+            if (jQuery(image).width() >= min_width && jQuery(image).height() >= min_height){
                 image_url = jQuery(image).attr('src');
                 jQuery('#bookmarklet .images').append('<a href="#"><img src="'+ image_url +'" /></a>');
             }
         });
+
         //po zaznaczeniu obrazu przejdz pod podany adres URL wraz z obrazem
         jQuery('#bookmarklet .images a').click(function(e){
-            select_image = jQuery(this).children('img').attr('src');
+            selected_image = jQuery(this).children('img').attr('src');
             //ukrycie bookmarkletu
             jQuery('#bookmarklet').hide();
             //otworzenie nowego okna w celu przekazania obrazu
             window.open(site_url +'images/create/?url='
-                        + encodeURIComponent(selected_image)
-                        + '&title='
-                        + encodeURIComponent(jQuery('title').text()),
-                        '_blank');
+                  + encodeURIComponent(selected_image)
+                  + '&title='
+                  + encodeURIComponent(jQuery('title').text()),
+                  '_blank');
         });
     };
     if(typeof window.jQuery != 'undefined'){
@@ -48,7 +50,7 @@
         var conflict = typeof window.$ != 'undefined';
         // utworzenie skryptu i wskazanie na Google API
         var script = document.createElement('script');
-        script.setAttribute('src', 'http://ajax.googleapis.com/ajax/libs/jquery/' + jquery_version + '/jquery.min.js');
+        script.src = '//ajax.googleapis.com/ajax/libs/jquery/' + jquery_version + '/jquery.min.js';
         // dodanie znacznika skrtyptu do znacznika <head> w celu przetworzenia.
         document.getElementsByTagName('head')[0].appendChild(script);
         // mechanizm pozwalajacy na zaczekanie az skrypt zostanie wczytany

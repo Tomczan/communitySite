@@ -9,7 +9,7 @@
 <a href="{{ image.image.url }}">
     <img src="{% thumbnail image.image 300x0 quality=95 %}" class="image-detail">
 </a>
-{% with total_likes=image.users_like.count users_like=image.users_like.all%}
+{% with total_likes=image.users_like.count users_like=image.users_like.all %}
 <div class="image-info">
     <div>
         <span class="count">
@@ -26,42 +26,44 @@
     </div>
     {{ image.description|linebreaks }}
 </div>
+{% comment %}
 <div class="image-likes">
     {% for user in users_like %}
     <div>
+        {% if user.profile.photo.url %}
         <img src="{{ user.profile.photo.url }}">
+        {% endif %}
         <p>{{ user.first_name }}</p>
     </div>
     {% empty %}
     <p>Jeszcze nikt nie polubił obrazu.</p>
     {% endfor %}
+    {% endcomment %}
 </div>
 {% endwith %}
 {% endblock content %}
 {% block domready %}
 $('a.like').click(function(e){
-    e.preventDefault();
-    $.post('{% url "images:like" %}',
-      {
-        id: $(this).data('id'),
-        action: $(this).data('action')
-      },
-      function(data){
-        if (data['status'] == 'ok')
-        {
-          var previous_action = $('a.like').data('action');
-            
-            //zmiana wartosci atrybutu data-action
-            $('a.like').data('action', previous_action == 'like' ? 'unlike' : 'like');
-            //zmiana tekstu wyswietlanego przez lacze
-            $('a.like').text(previous_action == 'like' ? 'Unlike' : 'Like');
-            //uaktualnienie calkowitej liczby polubienia danego obrazu
-            var previous_likes = parseInt($('span.count .total').text());
-            $('span.count .total').text(previous_action == 'like' ? previous_likes + 1 : previous_likes - 1);
-        }
-    }
-  );
+e.preventDefault();
+$.post('{% url "images:like" %}',
+{
+id: $(this).data('id'),
+action: $(this).data('action')
+},
+function(data){
+if (data['status'] == 'ok')
+{
+var previous_action = $('a.like').data('action');
+
+//zmiana wartosci atrybutu data-action
+$('a.like').data('action', previous_action == 'like' ? 'unlike' : 'like');
+//zmiana tekstu wyswietlanego przez lacze
+$('a.like').text(previous_action == 'like' ? 'Unlike' : 'Like');
+//uaktualnienie calkowitej liczby polubienia danego obrazu
+var previous_likes = parseInt($('span.count .total').text());
+$('span.count .total').text(previous_action == 'like' ? previous_likes + 1 : previous_likes - 1);
+}
+}
+);
 });
-
-
 {% endblock domready %}

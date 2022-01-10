@@ -67,13 +67,8 @@
             }
         });
         $(document).ready(function () {
-            {
-                %
-                block domready %
-            } {
-                %
-                endblock domready %
-            }
+            {% block domready %} 
+            {% endblock domready %}
         });
     </script>
 </body>

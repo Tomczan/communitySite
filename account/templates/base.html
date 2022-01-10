@@ -22,7 +22,7 @@
                 <a href="{% url 'images:list' %}">Obrazy</a>
             </li>
             <li {% if section == "people" %}class="selected" {% endif %}>
-                <a href="#">Osoby</a>
+                <a href="{% url 'user_list' %}">Osoby</a>
             </li>
         </ul>
         {% endif %}
@@ -67,8 +67,13 @@
             }
         });
         $(document).ready(function () {
-            {% block domready %}
-            {% endblock domready %}
+            {
+                %
+                block domready %
+            } {
+                %
+                endblock domready %
+            }
         });
     </script>
 </body>

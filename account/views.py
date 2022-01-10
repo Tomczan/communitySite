@@ -90,7 +90,7 @@ def user_list(request):
 @login_required
 def user_detail(request, username):
     user = get_object_or_404(User, username=username, is_active=True)
-    return render(request, 'account/user/detail', {
+    return render(request, 'account/user/detail.html', {
         'section': 'people',
         'user': user
     })

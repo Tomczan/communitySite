@@ -10,6 +10,8 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from common.decorators import ajax_required
 from .models import Contact
+from actions.utils import create_action
+from actions.models import Action
 
 # Create your views here.
 
@@ -38,7 +40,16 @@ def user_login(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'account/dashboard.html', {'section': 'dashboard'})
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list('id', flat=True)
+
+    if following_ids:
+        actions = actions.filter(user_id__in=following_ids)
+    actions: actions[:10]
+    return render(request, 'account/dashboard.html', {
+        'section': 'dashboard',
+        'actions': actions
+    })
 
 
 def register(request):
@@ -52,6 +63,7 @@ def register(request):
             # zapisanie uzytkownika
             new_user.save()
             profile = Profile.objects.create(user=new_user)
+            create_action(new_user, 'utworzył konto')
             return render(request, 'account/register_done.html',
                           {'new_user': new_user})
     else:
@@ -111,6 +123,7 @@ def user_follow(request):
             if action == 'follow':
                 Contact.objects.get_or_create(user_from=request.user,
                                               user_to=user)
+                create_action(request.user, 'obserwuje', user)
             else:
                 Contact.objects.filter(user_from=request.user,
                                        user_to=user).delete()
